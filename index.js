@@ -9,8 +9,8 @@ const generateMyPage = require("./src/generateHtmlFile");
 
 var allTeamMembers =[];
 const fs = require('fs');
-const { doesNotMatch } = require('assert');
-function init ()
+//const { doesNotMatch } = require('assert');
+function init () {
     inquirer.prompt( [
         {
             type:'input',
@@ -66,7 +66,8 @@ function init ()
 
         })
 
-    function promptotherquestions ()
+
+    function promptotherquestions () {
         inquirer.prompt( [
             {
                 type:"list",
@@ -76,16 +77,13 @@ function init ()
             },
         ]).then( (userChoice) => {
         
-                 if( userChoice.typeEmp === "Engineer") {
-                    collectEngineerInfo(); 
-                 } else if( userChoice.typeEmp === "Intern"){
-                    collectInternInfo(); 
-                 } else if( userChoice === "Done"){
-                    Done()
-                 }
+                 if( userChoice.typeEmp === "Engineer") { collectEngineerInfo(); } 
+                 if( userChoice.typeEmp === "Intern"){ collectInternInfo(); } 
+                 if( userChoice.typeEmp === "Done"){ Done(); }
 
         })
-        function collectEngineerInfo()
+    }
+        function collectEngineerInfo() {
         inquirer.prompt( [
         {
             type:'input',
@@ -119,9 +117,14 @@ function init ()
                 return "Please provide GitHub username."
             }},
         },
-        ]).then((response)=>{
+        {
+            type:"confirm",
+            message: "Do you want to add another team member?",
+            name: "repeat",
+        },
+        ]).then((response)=> {
              /// destructing an object
-             const {teamName, teamID, teamEmail, gitHub} = response;
+             const {teamName, teamID, teamEmail, gitHub, repeat} = response;
              const engineer = new Engineer(teamName, teamID, teamEmail, gitHub);
     
             const addEngineer ={
@@ -129,14 +132,22 @@ function init ()
                name: engineer.getName(),
                id: engineer.getId(),
                email: engineer.getEmail(),
-               extrafield: engineer.gitHub(),
-            }
+               extrafield: engineer.getGitHub(),
 
+            }
             allTeamMembers.push(addEngineer);
 
-            })
+            if (repeat === true) {
+                promptotherquestions();
+            //allTeamMembers.push(addEngineer);
+            } else {
+                Done();
+            }
+        });
+        }
+    
 
-        function collectInternInfo()
+        function collectInternInfo() {
         inquirer.prompt( [
         {
             type:'input',
@@ -180,21 +191,25 @@ function init ()
                name: intern.getName(),
                id: intern.getId(),
                email: intern.getEmail(),
-               extrafield: intern.school(),
+               school: intern.getSchool(),
             }
 
             allTeamMembers.push(addIntern);
 
             })
+        }
+    }
 
 // Function call to initialize app
 init();
 
 const Done =()=>{
+    console.log(allTeamMembers);
     const generateHtmlContent = generateMyPage(allTeamMembers);
+    console.log(generateHtmlContent)
     fs.writeFileSync("./dist/index.html", generateHtmlContent);
 }
-
+// "./dist/index.html", gen...
 // output_dir
 //output path 
 
