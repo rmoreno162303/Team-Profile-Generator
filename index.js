@@ -1,14 +1,15 @@
 const inquirer = require("inquirer");
-const Employee = require("./lib/employee");
-const Engineer = require("./lib/engineer");
-const Intern = require("./lib/intern");
-const Manager = require("./lib/manager");
+const Employee = require("./lib/Employee");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
 const generateMyPage = require("./src/generateHtmlFile");
 
 // const genMarkDown = require("./generateMarkdown.js");
 
 var allTeamMembers =[];
 const fs = require('fs');
+const generateHtmlFile = require("./src/generateHtmlFile");
 //const { doesNotMatch } = require('assert');
 function init () {
     inquirer.prompt( [
@@ -181,9 +182,14 @@ function init () {
                 return "Please provide intern's school."
             }},
         },
+        {
+            type:"confirm",
+            message: "Do you want to add another team member?",
+            name: "repeat",
+        },
         ]).then((response)=>{
              /// destructing an object
-             const {teamName, teamID, teamEmail, school} = response;
+             const {teamName, teamID, teamEmail, school, repeat} = response;
              const intern = new Intern(teamName, teamID, teamEmail, school);
     
             const addIntern ={
@@ -196,6 +202,11 @@ function init () {
 
             allTeamMembers.push(addIntern);
 
+            if (repeat === true) {
+                promptotherquestions();
+            } else {
+                Done();
+            }
             })
         }
     }
@@ -213,26 +224,71 @@ const Done =()=>{
 // output_dir
 //output path 
 
-function startHtml() {
-    const html = 
+const generateHtmlContent = (allTeamMembers) => {
+    return
     `<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">       
         <title>Team Roster</title>
-        <link rel="stylesheet" href="./assets/css/style.css">
       </head>
+
       <body>
-        <div class="jumbotron jumbotron-fluid">
-         <div class="container"></div>
+        <div class="card" style="width:18rem;">
+            <div class="card-header"> Manager </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">${allTeamMembers[0].teamName}</li>
+                    <li class="list-group-item">${allTeamMembers[0].teamID}</li>
+                    <li class="list-group-item"><a href= "mailto:${allTeamMembers[0].teamEmail}">${allTeamMembers[0].teamEmail}</a></li>
+                    <li class="list-group-item">${allTeamMembers[0].office}</li>
+                </ul>
         </div>
-        </body>
-       </html>`;
+        ${engineerInfo(allTeamMembers)}
+        ${internInfo(allTeamMembers)}
+
+      </body>
+    </html>`
+}
+//return generateHtmlContent;
+
+const createEngineers = (allTeamMembers) => {
+    let engineerInfo = ""
+    for(i=0; i < allTeamMembers.length; i++) {
+        if(allTeamMembers[i].getRole() === "Engineer") {
+            engineerInfo += `<div class="card" style="width: 18rem;"
+            <div class="card-header"> Engineer </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">${allTeamMembers[i].teamName}</li>
+                    <li class="list-group-item">${allTeamMembers[i].teamID}</li>
+                    <li class="list-group-item"><a href = "https://github.com/${team[i].getGitHub}">${team[i].getGitHub}</a></li>
+                </ul>
+            </div>`
+        }
+    }
+    return engineerInfo;
 }
 
+const createIntern = (allTeamMembers) => {
+    let internInfo = ""
+    for(i=0; i < allTeamMembers.length; i++) {
+        if(allTeamMembers[i].getRole() === "Intern") {
+            internInfo += `<div class="card" style="width: 18rem;"
+            <div class="card-header"> Engineer </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">${allTeamMembers[i].teamName}</li>
+                    <li class="list-group-item">${allTeamMembers[i].teamID}</li>
+                    <li class="list-group-item">${allTeamMembers[i].school}</li>
+                </ul>
+            </div>`
+        }
+    }
+    return internInfo;
+}
+
+module.exports = generateHtmlContent;
 
  // const generateHTML = ({ manager, , github, linkedin }) =>
     // `<!DOCTYPE html>
