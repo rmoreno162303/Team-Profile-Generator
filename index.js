@@ -220,75 +220,83 @@ const Done =()=>{
     console.log(generateHtmlContent)
     fs.writeFileSync("./dist/index.html", generateHtmlContent);
 }
+
+
+
+
+
+
+
+
 // "./dist/index.html", gen...
 // output_dir
 //output path 
 
-const generateHtmlContent = (allTeamMembers) => {
-    return
-    `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">       
-        <title>Team Roster</title>
-      </head>
+// const generateHtmlContent = (allTeamMembers) => {
+//     return
+//     `<!DOCTYPE html>
+//     <html lang="en">
+//       <head>
+//         <meta charset="UTF-8">
+//         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">       
+//         <title>Team Roster</title>
+//       </head>
 
-      <body>
-        <div class="card" style="width:18rem;">
-            <div class="card-header"> Manager </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${allTeamMembers[0].teamName}</li>
-                    <li class="list-group-item">${allTeamMembers[0].teamID}</li>
-                    <li class="list-group-item"><a href= "mailto:${allTeamMembers[0].teamEmail}">${allTeamMembers[0].teamEmail}</a></li>
-                    <li class="list-group-item">${allTeamMembers[0].office}</li>
-                </ul>
-        </div>
-        ${engineerInfo(allTeamMembers)}
-        ${internInfo(allTeamMembers)}
+//       <body>
+//         <div class="card" style="width:18rem;">
+//             <div class="card-header"> Manager </div>
+//                 <ul class="list-group list-group-flush">
+//                     <li class="list-group-item">${allTeamMembers[0].teamName}</li>
+//                     <li class="list-group-item">${allTeamMembers[0].teamID}</li>
+//                     <li class="list-group-item"><a href= "mailto:${allTeamMembers[0].teamEmail}">${allTeamMembers[0].teamEmail}</a></li>
+//                     <li class="list-group-item">${allTeamMembers[0].office}</li>
+//                 </ul>
+//         </div>
+//         ${engineerInfo(allTeamMembers)}
+//         ${internInfo(allTeamMembers)}
 
-      </body>
-    </html>`
-}
-//return generateHtmlContent;
+//       </body>
+//     </html>`
+// }
+// //return generateHtmlContent;
 
-const createEngineers = (allTeamMembers) => {
-    let engineerInfo = ""
-    for(i=0; i < allTeamMembers.length; i++) {
-        if(allTeamMembers[i].getRole() === "Engineer") {
-            engineerInfo += `<div class="card" style="width: 18rem;"
-            <div class="card-header"> Engineer </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${allTeamMembers[i].teamName}</li>
-                    <li class="list-group-item">${allTeamMembers[i].teamID}</li>
-                    <li class="list-group-item"><a href = "https://github.com/${team[i].getGitHub}">${team[i].getGitHub}</a></li>
-                </ul>
-            </div>`
-        }
-    }
-    return engineerInfo;
-}
+// const createEngineers = (allTeamMembers) => {
+//     let engineerInfo = ""
+//     for(i=0; i < allTeamMembers.length; i++) {
+//         if(allTeamMembers[i].getRole() === "Engineer") {
+//             engineerInfo += `<div class="card" style="width: 18rem;"
+//             <div class="card-header"> Engineer </div>
+//                 <ul class="list-group list-group-flush">
+//                     <li class="list-group-item">${allTeamMembers[i].teamName}</li>
+//                     <li class="list-group-item">${allTeamMembers[i].teamID}</li>
+//                     <li class="list-group-item"><a href = "https://github.com/${team[i].getGitHub}">${team[i].getGitHub}</a></li>
+//                 </ul>
+//             </div>`
+//         }
+//     }
+//     return engineerInfo;
+// }
 
-const createIntern = (allTeamMembers) => {
-    let internInfo = ""
-    for(i=0; i < allTeamMembers.length; i++) {
-        if(allTeamMembers[i].getRole() === "Intern") {
-            internInfo += `<div class="card" style="width: 18rem;"
-            <div class="card-header"> Engineer </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${allTeamMembers[i].teamName}</li>
-                    <li class="list-group-item">${allTeamMembers[i].teamID}</li>
-                    <li class="list-group-item">${allTeamMembers[i].school}</li>
-                </ul>
-            </div>`
-        }
-    }
-    return internInfo;
-}
+// const createIntern = (allTeamMembers) => {
+//     let internInfo = ""
+//     for(i=0; i < allTeamMembers.length; i++) {
+//         if(allTeamMembers[i].getRole() === "Intern") {
+//             internInfo += `<div class="card" style="width: 18rem;"
+//             <div class="card-header"> Engineer </div>
+//                 <ul class="list-group list-group-flush">
+//                     <li class="list-group-item">${allTeamMembers[i].teamName}</li>
+//                     <li class="list-group-item">${allTeamMembers[i].teamID}</li>
+//                     <li class="list-group-item">${allTeamMembers[i].school}</li>
+//                 </ul>
+//             </div>`
+//         }
+//     }
+//     return internInfo;
+// }
 
-module.exports = generateHtmlContent;
+//module.exports = generateHtmlContent;
 
  // const generateHTML = ({ manager, , github, linkedin }) =>
     // `<!DOCTYPE html>
