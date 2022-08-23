@@ -1,17 +1,25 @@
 const inquirer = require("inquirer");
-const Employee = require("./lib/Employee");
+//const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-const generateMyPage = require("./src/generateHtmlFile");
+//const generateMyPage = require("./src/generateHtmlFile");
+const path = require ("path");
 
 // const genMarkDown = require("./generateMarkdown.js");
 
 var allTeamMembers =[];
 const fs = require('fs');
+
+const dir_name = path.resolve(__dirname, "dist")
+const distPath = path.join(dir_name, "team.html")
+
+
+
 const generateHtmlFile = require("./src/generateHtmlFile");
 //const { doesNotMatch } = require('assert');
 function init () {
+    //function createEmployee() {
     inquirer.prompt( [
         {
             type:'input',
@@ -45,28 +53,31 @@ function init () {
                 return "Please provide office number for manager of project."
             }},
         },
-        ]).then((response)=>{
+        ]).then((response) => {
              /// destructing an object
-             const {teamName, teamID, teamEmail, officeNum} = response;
-             const manager = new Manager(teamName, teamID, teamEmail, officeNum);
-            const addManager ={
-               role: manager.getRole(),
-               name: manager.getName(),
-               id: manager.getId(),
-               email: manager.getEmail(),
-               extrafield: manager.getOfficeNumber(),
+             //const {teamName, teamID, teamEmail, officeNum} = response;
+            const manager = new Manager (
+               //response.getRole,
+               response.teamName,
+               response.teamID,
+               response.teamEmail,
+               response.officeNum);
+
+               allTeamMembers.push(manager);
+
+               promptotherquestions();
 
 
-            }
+            })
 
-            allTeamMembers.push(addManager);
+            //allTeamMembers.push(manager);
 
-         promptotherquestions();
+         //promptotherquestions();
 
 
 
-        })
-
+        }
+    //}
 
     function promptotherquestions () {
         inquirer.prompt( [
@@ -123,28 +134,34 @@ function init () {
             message: "Do you want to add another team member?",
             name: "repeat",
         },
-        ]).then((response)=> {
+        ]).then((response) => {
              /// destructing an object
-             const {teamName, teamID, teamEmail, gitHub, repeat} = response;
-             const engineer = new Engineer(teamName, teamID, teamEmail, gitHub);
-    
-            const addEngineer ={
-               role: engineer.getRole(),
-               name: engineer.getName(),
-               id: engineer.getId(),
-               email: engineer.getEmail(),
-               extrafield: engineer.getGitHub(),
+             //const {teamName, teamID, teamEmail, gitHub, repeat} = response;
+             const engineer = new Engineer (
+               //response.getRole,
+               response.teamName,
+               response.teamID,
+               response.teamEmail,
+               response.gitHub);
 
-            }
-            allTeamMembers.push(addEngineer);
+               allTeamMembers.push(engineer);
 
-            if (repeat === true) {
+               if (response.repeat === true) {
                 promptotherquestions();
             //allTeamMembers.push(addEngineer);
             } else {
                 Done();
             }
-        });
+
+            })
+            //allTeamMembers.push(addEngineer);
+
+            // if (repeat === true) {
+            //     promptotherquestions();
+            // //allTeamMembers.push(addEngineer);
+            // } else {
+            //     Done();
+            // }
         }
     
 
@@ -187,39 +204,51 @@ function init () {
             message: "Do you want to add another team member?",
             name: "repeat",
         },
-        ]).then((response)=>{
+        ]).then((response) => {
              /// destructing an object
-             const {teamName, teamID, teamEmail, school, repeat} = response;
-             const intern = new Intern(teamName, teamID, teamEmail, school);
-    
-            const addIntern ={
-               role: intern.getRole(),
-               name: intern.getName(),
-               id: intern.getId(),
-               email: intern.getEmail(),
-               school: intern.getSchool(),
-            }
+             //const {teamName, teamID, teamEmail, school, repeat} = response;
+             const intern = new Intern (
+               //response.getRole,
+               response.teamName,
+               response.teamId,
+               response.teamEmail,
+               response.school);
+            
 
-            allTeamMembers.push(addIntern);
+            allTeamMembers.push(intern);
 
-            if (repeat === true) {
+            if (response.repeat === true) {
                 promptotherquestions();
             } else {
                 Done();
             }
             })
+            
         }
-    }
+
+    //return createEmployee;
+
+    
 
 // Function call to initialize app
+//init();
+
+function Done() {
+    console.log(allTeamMembers);
+    //const generateHtmlContent = generateMyPage(allTeamMembers);
+    //console.log(generateHtmlContent)
+    fs.writeFileSync("team.html", generateHtmlFile(allTeamMembers), "utf-8");
+
+    //createEmployee();
+
+}
+
+
+//createEmployee();
+
+
 init();
 
-const Done =()=>{
-    console.log(allTeamMembers);
-    const generateHtmlContent = generateMyPage(allTeamMembers);
-    console.log(generateHtmlContent)
-    fs.writeFileSync("./dist/index.html", generateHtmlContent);
-}
 
 
 
@@ -315,14 +344,3 @@ const Done =()=>{
     //   </div>
     //   </body>
     //   </html>`;
-
-
-
-// // TODO: Create a function to initialize app
-// function init() {
-//     inquirer.prompt(questions).then( (response) =>{
-//         //console.log(response);
-//         const teamMembers = generateHtmlFile(allTeammE);
-//       fs.writeFile("./generateREADME/README.md", readmecontent);
-//     })
-// }
