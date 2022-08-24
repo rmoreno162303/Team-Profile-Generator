@@ -1,12 +1,9 @@
 const inquirer = require("inquirer");
-//const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-//const generateMyPage = require("./src/generateHtmlFile");
 const path = require ("path");
 
-// const genMarkDown = require("./generateMarkdown.js");
 
 var allTeamMembers =[];
 const fs = require('fs');
@@ -17,9 +14,7 @@ const distPath = path.join(dir_name, "team.html")
 
 
 const generateHtmlFile = require("./src/generateHtmlFile");
-//const { doesNotMatch } = require('assert');
 function init () {
-    //function createEmployee() {
     inquirer.prompt( [
         {
             type:'input',
@@ -54,8 +49,6 @@ function init () {
             }},
         },
         ]).then((response) => {
-             /// destructing an object
-             //const {teamName, teamID, teamEmail, officeNum} = response;
             const manager = new Manager (
                //response.getRole,
                response.teamName,
@@ -70,14 +63,9 @@ function init () {
 
             })
 
-            //allTeamMembers.push(manager);
-
-         //promptotherquestions();
-
 
 
         }
-    //}
 
     function promptotherquestions () {
         inquirer.prompt( [
@@ -135,10 +123,7 @@ function init () {
             name: "repeat",
         },
         ]).then((response) => {
-             /// destructing an object
-             //const {teamName, teamID, teamEmail, gitHub, repeat} = response;
              const engineer = new Engineer (
-               //response.getRole,
                response.teamName,
                response.teamID,
                response.teamEmail,
@@ -148,23 +133,13 @@ function init () {
 
                if (response.repeat === true) {
                 promptotherquestions();
-            //allTeamMembers.push(addEngineer);
             } else {
                 Done();
             }
 
             })
-            //allTeamMembers.push(addEngineer);
-
-            // if (repeat === true) {
-            //     promptotherquestions();
-            // //allTeamMembers.push(addEngineer);
-            // } else {
-            //     Done();
-            // }
         }
     
-
         function collectInternInfo() {
         inquirer.prompt( [
         {
@@ -205,16 +180,12 @@ function init () {
             name: "repeat",
         },
         ]).then((response) => {
-             /// destructing an object
-             //const {teamName, teamID, teamEmail, school, repeat} = response;
              const intern = new Intern (
-               //response.getRole,
                response.teamName,
                response.teamId,
                response.teamEmail,
                response.school);
             
-
             allTeamMembers.push(intern);
 
             if (response.repeat === true) {
@@ -226,25 +197,11 @@ function init () {
             
         }
 
-    //return createEmployee;
-
-    
-
-// Function call to initialize app
-//init();
-
 function Done() {
     console.log(allTeamMembers);
-    //const generateHtmlContent = generateMyPage(allTeamMembers);
-    //console.log(generateHtmlContent)
     fs.writeFileSync("team.html", generateHtmlFile(allTeamMembers), "utf-8");
 
-    //createEmployee();
-
 }
-
-
-//createEmployee();
 
 
 init();
@@ -252,95 +209,3 @@ init();
 
 
 
-
-
-
-
-
-// "./dist/index.html", gen...
-// output_dir
-//output path 
-
-// const generateHtmlContent = (allTeamMembers) => {
-//     return
-//     `<!DOCTYPE html>
-//     <html lang="en">
-//       <head>
-//         <meta charset="UTF-8">
-//         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">       
-//         <title>Team Roster</title>
-//       </head>
-
-//       <body>
-//         <div class="card" style="width:18rem;">
-//             <div class="card-header"> Manager </div>
-//                 <ul class="list-group list-group-flush">
-//                     <li class="list-group-item">${allTeamMembers[0].teamName}</li>
-//                     <li class="list-group-item">${allTeamMembers[0].teamID}</li>
-//                     <li class="list-group-item"><a href= "mailto:${allTeamMembers[0].teamEmail}">${allTeamMembers[0].teamEmail}</a></li>
-//                     <li class="list-group-item">${allTeamMembers[0].office}</li>
-//                 </ul>
-//         </div>
-//         ${engineerInfo(allTeamMembers)}
-//         ${internInfo(allTeamMembers)}
-
-//       </body>
-//     </html>`
-// }
-// //return generateHtmlContent;
-
-// const createEngineers = (allTeamMembers) => {
-//     let engineerInfo = ""
-//     for(i=0; i < allTeamMembers.length; i++) {
-//         if(allTeamMembers[i].getRole() === "Engineer") {
-//             engineerInfo += `<div class="card" style="width: 18rem;"
-//             <div class="card-header"> Engineer </div>
-//                 <ul class="list-group list-group-flush">
-//                     <li class="list-group-item">${allTeamMembers[i].teamName}</li>
-//                     <li class="list-group-item">${allTeamMembers[i].teamID}</li>
-//                     <li class="list-group-item"><a href = "https://github.com/${team[i].getGitHub}">${team[i].getGitHub}</a></li>
-//                 </ul>
-//             </div>`
-//         }
-//     }
-//     return engineerInfo;
-// }
-
-// const createIntern = (allTeamMembers) => {
-//     let internInfo = ""
-//     for(i=0; i < allTeamMembers.length; i++) {
-//         if(allTeamMembers[i].getRole() === "Intern") {
-//             internInfo += `<div class="card" style="width: 18rem;"
-//             <div class="card-header"> Engineer </div>
-//                 <ul class="list-group list-group-flush">
-//                     <li class="list-group-item">${allTeamMembers[i].teamName}</li>
-//                     <li class="list-group-item">${allTeamMembers[i].teamID}</li>
-//                     <li class="list-group-item">${allTeamMembers[i].school}</li>
-//                 </ul>
-//             </div>`
-//         }
-//     }
-//     return internInfo;
-// }
-
-//module.exports = generateHtmlContent;
-
- // const generateHTML = ({ manager, , github, linkedin }) =>
-    // `<!DOCTYPE html>
-    //   <html lang="en">
-    //   <head>
-    //     <meta charset="UTF-8">
-    //     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    //     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    //     <title>Document</title>
-    //   </head>
-    //   <body>
-    //     <div class="jumbotron jumbotron-fluid">
-    //     <div class="container">
-          
-    //     </div>
-    //   </div>
-    //   </body>
-    //   </html>`;
